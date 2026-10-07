@@ -2,6 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d9480f">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>حسابات المحل</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -343,6 +347,7 @@ async function clearLog(){if(sales.length&&await ask("⚠️ هل تريد مس�
  var r=await sb.rpc("delete_all_sales",{p_shop:shopId});if(r.error){fail(r.error);return}
  await loadSales();await loadDel();drawLog();showClear()}}
 sb.auth.getSession().then(function(r){if(r.data.session)loadAll();else{amsg("");}});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
 </script>
 </body>
 </html>
