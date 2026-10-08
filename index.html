@@ -2,12 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#d9480f">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>حسابات المحل</title>
+<meta name="google" content="notranslate">
+<meta name="theme-color" content="#d9480f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -43,15 +46,73 @@ input{font:inherit;padding:9px;border:1px solid var(--bd);border-radius:10px;bac
 table{width:100%;border-collapse:collapse}td,th{padding:7px 4px;border-bottom:1px dashed var(--bd);text-align:right}
 .seg{display:flex;gap:6px}.seg button{flex:1;padding:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:10px;font:inherit;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
 #inv{display:none}
+.bdg{position:absolute;top:6px;right:8px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;font-size:12px;padding:0 7px}.bdg.w{background:#c92a2a;color:#fff;border-color:#c92a2a}.p.out{opacity:.45}
+#net{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;background:#495057;color:#fff;text-align:center;font-size:13px;padding:4px;z-index:7}#net.hide{display:none}
+.pe{width:70px}label.mut{display:flex;flex-direction:column;align-items:center;font-size:11px}
 #tst{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:10px 18px;border-radius:12px;z-index:8;font-weight:700;opacity:0;transition:opacity .25s;pointer-events:none}#tst.on{opacity:1}
 #dlg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9;padding:16px}#dlg.hide{display:none}
 #dlg .bx{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;max-width:340px;width:100%;text-align:center}
 #dlg .bx p{margin:0 0 14px;font-size:17px;white-space:pre-line}#dlg .bx .btn{margin:6px 0 0}
+
+/* ===== حركات وشعار ===== */
+#spl{position:fixed;inset:0;z-index:30;background:#d9480f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s,visibility .45s}
+#spl.off{opacity:0;visibility:hidden}
+#spl svg{width:132px;height:132px;overflow:visible}
+#spl .bgs{fill:#faf6ef;transform-origin:60px 60px;animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+#spl .rc{fill:#d9480f;transform-box:fill-box;animation:slide .6s .25s cubic-bezier(.2,.9,.3,1) both}
+#spl .ln{fill:#faf6ef;transform-box:fill-box;transform-origin:right;animation:grow .35s both}#spl .l1{animation-delay:.7s}#spl .l2{animation-delay:.85s}
+#spl .ck{stroke:#faf6ef;stroke-dasharray:50;stroke-dashoffset:50;animation:draw .45s 1s ease-out forwards}
+#spl b{color:#faf6ef;font-size:24px;opacity:0;animation:fade .5s 1.15s forwards}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slide{from{transform:translateY(26px);opacity:0}to{transform:none;opacity:1}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+.brand{display:flex;align-items:center;gap:8px;cursor:pointer}.brand svg{width:34px;height:34px}.brand h1{margin:0}
+section.fx{animation:sec .28s ease-out}
+@keyframes sec{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.grid.enter .p{animation:rise .45s both}
+@keyframes rise{from{opacity:0;transform:translateY(16px) scale(.94)}to{opacity:1;transform:none}}
+.p .img{transition:transform .2s}.p:active .img{transform:scale(1.18) rotate(-6deg)}
+.bump{animation:bump .35s}
+@keyframes bump{40%{transform:scale(1.18);color:var(--ac)}}
+#cart .item:last-child{animation:sec .25s}
+.btn{transition:transform .1s,filter .15s}.btn:active{transform:scale(.97);filter:brightness(.92)}
+#tst{transform:translate(-50%,16px);transition:opacity .25s,transform .25s}#tst.on{transform:translate(-50%,0)}
+#okf{position:fixed;inset:0;z-index:25;display:flex;align-items:center;justify-content:center;pointer-events:none;visibility:hidden}
+#okf.on{visibility:visible;animation:okbg 1s forwards}
+#okf svg{width:120px;height:120px}#okf circle{fill:var(--ok);transform-origin:center;animation:pop .35s both}
+#okf path{fill:none;stroke:#fff;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:50;stroke-dashoffset:50}
+#okf.on path{animation:draw .4s .15s forwards}
+@keyframes okbg{0%{opacity:0}15%,70%{opacity:1}100%{opacity:0}}
+.sm:active{transform:scale(.88)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}#spl .ck{stroke-dashoffset:0}#spl b,#spl .ln{opacity:1}}
+/* ===== تقليب الهاتف (وضع أفقي) ===== */
+body{padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+@media(orientation:landscape) and (min-width:640px){
+body{max-width:1100px}
+#s0:not(.hide){display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0 14px;align-items:start}
+#s0>#low,#s0>#clr,#s0>.grid{grid-column:1}
+#s0>.box:last-child{grid-column:2;grid-row:1 / span 3;margin-top:0;position:sticky;top:8px;max-height:calc(100vh - 16px);overflow:auto}
+.grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+.p .img{height:56px;font-size:42px}.p img{max-height:56px}
+}
+/* ===== كاميرا وباركود ===== */
+#scn{position:fixed;inset:0;z-index:40;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px}#scn.hide{display:none}
+#scn .vw{position:relative;width:100%;max-width:520px;border-radius:14px;overflow:hidden}#scv{width:100%;max-height:60vh;object-fit:cover;display:block}
+#scn .vw i{position:absolute;left:8%;right:8%;height:2px;background:#ff6b3d;box-shadow:0 0 10px #ff6b3d;animation:scl 1.8s ease-in-out infinite alternate}
+@keyframes scl{from{top:18%}to{top:82%}}
+#scn p{color:#fff;margin:0}#scn .btn{max-width:520px}
+#s0>.scanbtn{grid-column:1;margin:0 0 10px}
 @media print{@page{size:80mm auto;margin:4mm}body>*:not(#inv){display:none!important}#inv{display:block!important;color:#000;background:#fff;font-size:13px;padding:0}#inv .it{display:flex;justify-content:space-between;border-bottom:1px dashed #000;padding:3px 0}}
 </style>
 </head>
 <body>
-<div class="row" style="justify-content:space-between"><h1>🧾 حسابات المحل</h1><button class="sm" style="width:auto;padding:0 10px" onclick="logout()">خروج</button></div>
+<div class="row" style="justify-content:space-between"><div class="brand" onclick="splash()"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="28" fill="#d9480f"/><path fill="#fff" d="M34 26a4 4 0 0 1 4-4h44a4 4 0 0 1 4 4V92l-6.5-6-6.5 6-6.5-6-6.5 6-6.5-6-6.5 6-6.5-6L34 92Z"/>
+<rect x="44" y="35" width="32" height="4" rx="2" fill="#d9480f"/>
+<rect x="44" y="46" width="22" height="4" rx="2" fill="#d9480f"/>
+<path d="M46 69l9 9 19-20" fill="none" stroke="#d9480f" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><h1>حسابات المحل</h1></div><span class="row"><button class="sm" id="bbtn" style="width:auto;padding:0 10px" onclick="bioToggle()" title="الدخول بالبصمة">👆</button><button class="sm" style="width:auto;padding:0 10px" onclick="logout()">خروج</button></span></div>
 <div class="tabs">
  <button id="t0" class="on" onclick="tab(0)">البيع</button>
  <button id="t1" onclick="tab(1)">السجل</button>
@@ -62,7 +123,9 @@ table{width:100%;border-collapse:collapse}td,th{padding:7px 4px;border-bottom:1p
 </div>
 
 <section id="s0">
+ <div id="low" class="box hide" style="margin:0 0 12px;border-color:#c92a2a"></div>
  <div id="clr" class="box hide" style="margin:0 0 12px;border-color:var(--ac)"></div>
+ <button class="btn alt scanbtn" onclick="scanSale()">📷 مسح باركود لإضافة منتج</button>
  <div class="grid" id="grid"></div>
  <div class="box">
   <b>الفاتورة الحالية</b>
@@ -99,8 +162,12 @@ table{width:100%;border-collapse:collapse}td,th{padding:7px 4px;border-bottom:1p
   <b>إضافة منتج جديد</b>
   <input id="np_n" placeholder="اسم المنتج">
   <input id="np_p" type="number" min="0" placeholder="السعر (دج)">
+  <input id="np_s" type="number" min="0" placeholder="كمية المخزون (اختياري)">
   <input id="np_e" placeholder="رمز تعبيري (مثال: 🍕) أو ارفع صورة بالأسفل" maxlength="4">
-  <input id="np_f" type="file" accept="image/*">
+  <div class="row"><input id="np_b" placeholder="الباركود (اختياري)" inputmode="numeric"><button class="sm" style="width:46px;flex:none" onclick="scanInto()" title="مسح الباركود">📷</button></div>
+  <button class="btn gray" style="margin:4px 0" onclick="$('np_c').click()">📸 تصوير المنتج بالكاميرا</button>
+  <input id="np_c" type="file" accept="image/*" capture="environment" class="hide">
+  <input id="np_f" type="file" accept="image/*"><img id="np_pv" class="hide" alt="" style="max-height:90px;border-radius:8px;margin-top:6px">
   <button class="btn alt" onclick="addP()">➕ إضافة</button>
  </div>
  <div class="box" id="plist"></div>
@@ -110,16 +177,31 @@ table{width:100%;border-collapse:collapse}td,th{padding:7px 4px;border-bottom:1p
  <div class="seg"><button id="m0" class="on" onclick="mode=0;drawRep()">حسب اليوم</button><button id="m1" onclick="mode=1;drawRep()">حسب الشهر</button></div>
  <div class="box" id="rep"></div>
  <button class="btn alt" onclick="exportCSV()">📥 تحميل السجل لـ Excel</button>
+ <button class="btn gray" onclick="exportProds()">📦 تحميل المنتجات والمخزون</button>
+ <button class="btn gray" onclick="exportAll()">💾 نسخة احتياطية كاملة (JSON)</button>
  <div class="mut" id="msg" style="margin-top:6px"></div>
 </section>
 <section id="s5" class="hide"><div id="safe"></div></section>
 <div id="inv"></div>
 <div id="auth" style="position:fixed;inset:0;background:var(--bg);z-index:20;padding:20px;overflow:auto"><div style="max-width:380px;margin:40px auto" class="box">
- <h1 style="text-align:center">🧾 حسابات المحل</h1>
+ <div style="text-align:center"><div style="width:84px;margin:0 auto"><svg viewBox="0 0 120 120" aria-hidden="true"><rect width="120" height="120" rx="28" fill="#d9480f"/><path fill="#fff" d="M34 26a4 4 0 0 1 4-4h44a4 4 0 0 1 4 4V92l-6.5-6-6.5 6-6.5-6-6.5 6-6.5-6-6.5 6-6.5-6L34 92Z"/>
+<rect x="44" y="35" width="32" height="4" rx="2" fill="#d9480f"/>
+<rect x="44" y="46" width="22" height="4" rx="2" fill="#d9480f"/>
+<path d="M46 69l9 9 19-20" fill="none" stroke="#d9480f" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg></div><h1>حسابات المحل</h1></div>
  <div id="a1"><input id="em" type="email" placeholder="البريد الإلكتروني" autocomplete="email"><input id="pw" type="password" placeholder="كلمة المرور (6 أحرف على الأقل)" autocomplete="current-password">
- <button class="btn" onclick="signIn()">دخول</button><button class="btn alt" onclick="signUp()">إنشاء حساب جديد</button></div>
+ <button class="btn" onclick="signIn()">دخول</button><button class="btn alt" onclick="signUp()">إنشاء حساب جديد</button>
+ <button class="btn hide" id="bb" onclick="bioLogin()">👆 الدخول بالبصمة</button><button class="btn gray hide" id="sw" onclick="switchAcc()">تبديل الحساب</button></div>
  <div id="a2" class="hide"><b>🏪 إنشاء محلك</b><input id="sn" placeholder="اسم المحل"><button class="btn" onclick="makeShop()">إنشاء المحل</button></div>
  <div class="mut" id="am" style="margin-top:8px;text-align:center">جارٍ التحميل…</div></div></div>
+<div id="spl"><svg viewBox="0 0 120 120"><rect class="bgs" x="6" y="6" width="108" height="108" rx="28"/><path class="rc" fill="#fff" d="M34 26a4 4 0 0 1 4-4h44a4 4 0 0 1 4 4V92l-6.5-6-6.5 6-6.5-6-6.5 6-6.5-6-6.5 6-6.5-6L34 92Z"/>
+<rect class="ln l1" x="44" y="35" width="32" height="4" rx="2" fill="#d9480f"/>
+<rect class="ln l2" x="44" y="46" width="22" height="4" rx="2" fill="#d9480f"/>
+<path class="ck" d="M46 69l9 9 19-20" fill="none" stroke="#d9480f" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg><b>حسابات المحل</b></div>
+<div id="okf"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><path d="M38 62l16 16 28-32"/></svg></div>
+<div id="scn" class="hide"><div class="vw"><video id="scv" playsinline muted></video><i></i></div><p id="scnh"></p><button class="btn gray" onclick="closeScan()">إغلاق</button></div>
+<div id="net" class="hide"></div>
 <div id="tst"></div>
 <div id="dlg" class="hide"><div class="bx"><p id="dmsg"></p><button class="btn" id="dok">موافق</button><button class="btn gray" id="dno">إلغاء</button></div></div>
 
@@ -346,8 +428,171 @@ async function delSale(i){var x=sales[i];if(!x)return;
 async function clearLog(){if(sales.length&&await ask("⚠️ هل تريد مسح كل السجل؟")&&await ask("تأكيد أخير: سيتم حذف "+sales.length+" عملية ولا يمكن التراجع من التطبيق.\nهل أنت متأكد؟")){
  var r=await sb.rpc("delete_all_sales",{p_shop:shopId});if(r.error){fail(r.error);return}
  await loadSales();await loadDel();drawLog();showClear()}}
-sb.auth.getSession().then(function(r){if(r.data.session)loadAll();else{amsg("");}});
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
+// ============ v2: المخزون + العمل بدون إنترنت + النسخ الاحتياطي ============
+var QK="q_sales";
+function lget(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function lset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function isNet(e){return !navigator.onLine||(e&&/fetch|network|load failed/i.test(e.message||String(e)))}
+function netBar(){var q=lget(QK,[]).length,off=!navigator.onLine,b=$("net");
+ if(!off&&!q){b.classList.add("hide");return}
+ b.classList.remove("hide");b.textContent=(off?"📴 بدون إنترنت — ":"")+(q?("⏳ "+q+" عملية بيع بانتظار الإرسال"):"المبيعات تُحفظ وتُرسَل عند عودة الاتصال")}
+async function syncQ(){var q=lget(QK,[]);if(!q.length||!navigator.onLine||!shopId)return;
+ var rest=[],bad=[];
+ for(var i=0;i<q.length;i++){var s=q[i];
+  var r=await sb.rpc("create_sale",{p_shop:s.shop,p_customer:s.cust||null,p_items:s.items});
+  if(r.error){if(isNet(r.error)){rest=q.slice(i);break}bad.push(s.cust?s.cust+": ":"" );bad[bad.length-1]+=r.error.message}}
+ lset(QK,rest);netBar();
+ if(rest.length<q.length){try{await loadProds();await loadSales()}catch(e){}draw();toast("✅ تم إرسال المبيعات المحفوظة")}
+ if(bad.length)await say("⚠️ تعذّر تسجيل "+bad.length+" عملية محفوظة:\n"+bad.join("\n"))}
+window.addEventListener("online",function(){netBar();syncQ()});window.addEventListener("offline",netBar);
+
+async function loadProds(){var r=await sb.from("products").select("*").eq("shop_id",shopId).eq("is_active",true).order("sort_order").order("created_at");if(r.error)throw r.error;
+ prods=r.data.map(function(d){return{id:d.id,n:d.name,p:Number(d.price),e:d.emoji,img:d.image_data,stock:d.stock==null?null:Number(d.stock),low:Number(d.low_stock==null?5:d.low_stock)}});lset("c_prods",prods)}
+
+function draw(){
+ $("grid").innerHTML=prods.map(function(p){var tr=p.stock!=null,out=tr&&p.stock<=0,low=tr&&!out&&p.stock<=p.low;
+  return '<div class="p'+(out?' out':'')+'" onclick="add(\''+p.id+'\')">'+(tr?'<span class="bdg'+(out||low?' w':'')+'">'+(out?'نفد':p.stock)+'</span>':'')+'<div class="img">'+pimg(p)+'</div><div class="n">'+esc(p.n)+'</div><div class="price">'+dz(p.p)+'</div></div>'}).join("");
+ var ids=Object.keys(cart),t=0;
+ $("cart").innerHTML=ids.length?ids.map(function(id){var p=prods.find(function(x){return x.id==id});if(!p)return"";t+=p.p*cart[id];
+  return '<div class="item"><span>'+esc(p.n)+' <span class="mut">× '+cart[id]+'</span></span><span class="q row"><button onclick="chg(\''+id+'\',-1)">−</button><b>'+dz(p.p*cart[id])+'</b><button onclick="chg(\''+id+'\',1)">+</button></span></div>'}).join(""):"اضغط على منتج لإضافته";
+ $("tot").textContent=dz(t);
+ var cg=custs();$("cul").innerHTML=Object.keys(cg).map(function(k){return '<option value="'+esc(cg[k].n)+'">'}).join("");
+ var lw=prods.filter(function(p){return p.stock!=null&&p.stock<=p.low}),lb=$("low");
+ if(lw.length){lb.classList.remove("hide");lb.innerHTML='<b>⚠️ تنبيه المخزون</b>'+lw.map(function(p){return '<div class="mut">'+esc(p.n)+': '+(p.stock<=0?'<b style="color:#c92a2a">نفد</b>':'متبقٍ '+p.stock)+'</div>'}).join("")}else lb.classList.add("hide")}
+function room(id,n){var p=prods.find(function(x){return x.id==id});if(p&&p.stock!=null&&n>p.stock){toast("⚠️ المتوفر من "+p.n+": "+p.stock);return false}return true}
+function add(id){if(!room(id,(cart[id]||0)+1))return;cart[id]=(cart[id]||0)+1;draw()}
+function chg(id,d){if(d>0&&!room(id,(cart[id]||0)+d))return;cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];draw()}
+
+async function sell(){
+ var ids=Object.keys(cart);if(!ids.length)return;
+ var cn=$("cu").value.trim(),before=0;if(cn){var c0=custs()[ckey(cn)];before=c0?c0.t:0}
+ var items=ids.map(function(id){return{product_id:id,qty:cart[id]}}),t=0;
+ ids.forEach(function(id){var p=prods.find(function(x){return x.id==id});if(p)t+=p.p*cart[id]});
+ var r;try{r=await sb.rpc("create_sale",{p_shop:shopId,p_customer:cn||null,p_items:items})}catch(e){r={error:e}}
+ var pp=$("pr").checked;$("pr").checked=false;
+ if(r.error){
+  if(isNet(r.error)){var q=lget(QK,[]);q.push({shop:shopId,cust:cn,items:items,ts:Date.now()});lset(QK,q);
+   ids.forEach(function(id){var p=prods.find(function(x){return x.id==id});if(p&&p.stock!=null)p.stock=Math.max(0,p.stock-cart[id])});lset("c_prods",prods);
+   cart={};$("cu").value="";draw();netBar();toast("📴 حُفظ البيع على الجهاز وسيُرسَل لاحقاً");return}
+  $("pr").checked=pp;fail(r.error);try{await loadProds();draw()}catch(e){}return}
+ cart={};$("cu").value="";
+ try{await Promise.all([loadSales(),loadProds()])}catch(e){fail(e)}draw();toast("✅ تم تسجيل البيع: "+dz(t));
+ if(cn&&shop.th>0&&before<shop.th&&before+t>=shop.th)await say("🎉 "+cn+" وصل إلى حد العرض الخاص!");
+ if(pp)printSale(0)}
+
+function drawList(){
+ $("plist").innerHTML='<b>تعديل الأسعار والمخزون</b><div class="mut">اترك خانة المخزون فارغة إن كنت لا تريد تتبّع كمية المنتج.</div>'+prods.map(function(p){return '<div class="item"><span class="row"><span style="font-size:26px">'+(p.img?'<img src="'+p.img+'" style="height:30px;vertical-align:middle">':p.e||"🛒")+'</span> '+esc(p.n)+'</span><span class="row"><label class="mut">سعر<input class="pe" type="number" min="0" value="'+p.p+'" onchange="setP(\''+p.id+'\',this.value)"></label><label class="mut">مخزون<input class="pe" type="number" min="0" placeholder="—" value="'+(p.stock==null?'':p.stock)+'" onchange="setS(\''+p.id+'\',this.value)"></label><button class="sm" onclick="delP(\''+p.id+'\')">🗑️</button></span></div>'}).join("")}
+async function setS(id,v){var s=v===""?null:Math.max(0,Math.floor(Number(v)||0));
+ var r=await sb.from("products").update({stock:s}).eq("id",id);if(r.error){fail(r.error);return}await loadProds();draw();drawList()}
+async function addP(){
+ var n=$("np_n").value.trim(),pv=$("np_p").value,e=$("np_e").value.trim(),sv=$("np_s").value,f=$("np_f").files[0];
+ if(!n||pv===""||isNaN(Number(pv))){say("أدخل الاسم والسعر");return}
+ var row={shop_id:shopId,name:n,price:Number(pv),emoji:e||"🛒",sort_order:prods.length+10,stock:sv===""?null:Math.max(0,Math.floor(Number(sv)||0))};if(f)row.image_data=await imgData(f);
+ var r=await sb.from("products").insert(row);if(r.error){fail(r.error);return}
+ $("np_n").value=$("np_p").value=$("np_e").value=$("np_s").value=$("np_f").value="";await loadProds();draw();drawList()}
+
+async function loadAll(){
+ try{var m=await sb.from("shop_members").select("shop_id,role").limit(1);if(m.error)throw m.error;
+  $("a1").classList.add("hide");
+  if(!m.data.length){$("a2").classList.remove("hide");amsg("");return}
+  shopId=m.data[0].shop_id;role=m.data[0].role;
+  await loadShop();await Promise.all([loadProds(),loadSales(),loadDel()]);
+  lset("c_ctx",{shopId:shopId,role:role,shop:shop});lset("c_sales",sales.slice(0,200));
+  boot()
+ }catch(e){
+  var c=lget("c_ctx",null);
+  if(c&&isNet(e)){shopId=c.shopId;role=c.role;shop=c.shop;prods=lget("c_prods",[]);sales=lget("c_sales",[]);dellog=[];
+   $("sh_n").value=shop.n;$("sh_a").value=shop.a;$("sh_p").value=shop.p;$("th").value=shop.th;boot();toast("📴 وضع بدون إنترنت — بيانات محفوظة");return}
+  $("a1").classList.remove("hide");amsg("تعذّر التحميل: "+((e&&e.message)||e))}}
+function boot(){["t2","t3","t5"].forEach(function(i){$(i).style.display=role=="owner"?"":"none"});
+ $("auth").classList.add("hide");draw();showClear();netBar();syncQ()}
+
+// نسخ احتياطي
+async function exportProds(){var q=function(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'};
+ var rows=[["المنتج","السعر","المخزون","حد التنبيه"]].concat(prods.map(function(p){return[p.n,p.p,p.stock==null?"":p.stock,p.low]}));
+ await saveFile("products.csv","\uFEFF"+rows.map(function(r){return r.map(q).join(",")}).join("\r\n"))}
+async function exportAll(){var d=new Date();
+ await saveFile("backup-"+d.getFullYear()+"-"+two(d.getMonth()+1)+"-"+two(d.getDate())+".json",JSON.stringify({shop:shop,products:prods,sales:sales,exported:d.toISOString()},null,1))}
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});
+
+
+// ===== حركات =====
+function splash(){var s=$("spl"),c=s.cloneNode(true);s.parentNode.replaceChild(c,s);c.classList.remove("off");setTimeout(function(){c.classList.add("off")},1900)}
+setTimeout(function(){$("spl").classList.add("off")},1900);
+var _tab=tab;tab=function(i){_tab(i);var s=$("s"+i);s.classList.remove("fx");void s.offsetWidth;s.classList.add("fx")};
+var _draw=draw,first=true;
+draw=function(){var old=$("tot").textContent;_draw();var t=$("tot");
+ if(old!==t.textContent){t.classList.remove("bump");void t.offsetWidth;t.classList.add("bump")}
+ if(first&&prods.length){first=false;var g=$("grid");g.classList.add("enter");Array.prototype.forEach.call(g.children,function(c,i){c.style.animationDelay=Math.min(i,12)*45+"ms"});setTimeout(function(){g.classList.remove("enter")},1200)}};
+var _toast=toast;toast=function(m){_toast(m);if(String(m).indexOf("تم تسجيل البيع")>-1){var o=$("okf");o.classList.remove("on");void o.offsetWidth;o.classList.add("on")}};
+
+// Enter = تسجيل الدخول
+["em","pw"].forEach(function(id){$(id).addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();signIn()}})});
+$("sn").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();makeShop()}});
+
+// ===== الدخول بالبصمة (مرتبط بالبريد) =====
+function bioOK(){return !!(window.PublicKeyCredential&&navigator.credentials)}
+function bioGet(){return lget("bio",null)}
+function bioMark(){var b=bioGet();$("bbtn").style.opacity=b?1:.45;$("bbtn").style.display=bioOK()?"":"none"}
+async function bioEnroll(){
+ var s=(await sb.auth.getSession()).data.session;if(!s){return}
+ var em=(s.user.email||"").toLowerCase();
+ try{var c=await navigator.credentials.create({publicKey:{challenge:rnd(32),rp:{name:"حسابات المحل"},user:{id:rnd(16),name:em,displayName:em},pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"},timeout:60000}});
+  lset("bio",{email:em,cred:b64(c.rawId)});bioMark();toast("✅ تم تفعيل الدخول بالبصمة لـ "+em)
+ }catch(e){say("تعذّر تفعيل البصمة. تأكد أن بصمة أو قفل الشاشة مفعّل في هاتفك، وافتح التطبيق من المتصفح مباشرة.")}}
+async function bioToggle(){
+ if(!bioOK()){say("هذا الجهاز أو المتصفح لا يدعم الدخول بالبصمة");return}
+ if(bioGet()){if(await ask("إيقاف الدخول بالبصمة؟")){try{localStorage.removeItem("bio")}catch(e){}bioMark();toast("تم إيقاف البصمة")}}
+ else bioEnroll()}
+async function bioLogin(){var b=bioGet();if(!b)return;
+ try{var id=Uint8Array.from(atob(b.cred),function(c){return c.charCodeAt(0)});
+  await navigator.credentials.get({publicKey:{challenge:rnd(32),allowCredentials:[{type:"public-key",id:id}],userVerification:"required",timeout:60000}});
+  amsg("…");await loadAll()
+ }catch(e){amsg("لم تنجح البصمة. جرّب مرة أخرى أو ادخل بكلمة المرور.")}}
+function lockScreen(b){$("em").value=b.email;$("bb").classList.remove("hide");$("sw").classList.remove("hide");amsg("🔒 التطبيق مقفل");bioLogin()}
+async function switchAcc(){if(await ask("تسجيل الخروج نهائياً وإيقاف البصمة لهذا الحساب؟")){try{localStorage.removeItem("bio")}catch(e){}await sb.auth.signOut();location.reload()}}
+logout=async function(){if(bioGet()){location.reload();return}await sb.auth.signOut();location.reload()};
+var _boot2=boot;boot=function(){_boot2();bioMark();offerBio()};
+async function offerBio(){if(!bioOK()||bioGet()||lget("bio_asked",0))return;lset("bio_asked",1);
+ if(await ask("👆 هل تريد الدخول بالبصمة في المرات القادمة؟\n(تُربط ببريدك الإلكتروني على هذا الجهاز)"))bioEnroll()}
+
+// ===== الكاميرا والباركود =====
+var scnStream=null,scnStop=null,scnCB=null,scnLast={c:"",t:0};
+function beep(){try{var a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator();o.frequency.value=880;o.connect(a.destination);o.start();setTimeout(function(){o.stop();a.close()},110)}catch(e){}}
+function loadZX(){return new Promise(function(ok,no){if(window.ZXing)return ok();var s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js";s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+function gotCode(c){var n=Date.now();if(c===scnLast.c&&n-scnLast.t<2200)return;scnLast={c:c,t:n};beep();try{navigator.vibrate(60)}catch(e){}if(scnCB)scnCB(c)}
+async function openScan(cb,hint){
+ scnCB=cb;$("scnh").textContent=hint||"وجّه الكاميرا نحو الباركود";$("scn").classList.remove("hide");var v=$("scv");
+ try{
+  scnStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+  v.srcObject=scnStream;await v.play();
+  if("BarcodeDetector" in window){
+   var want=["ean_13","ean_8","upc_a","upc_e","code_128","code_39","qr_code"],sup=await BarcodeDetector.getSupportedFormats(),
+   det=new BarcodeDetector({formats:want.filter(function(f){return sup.indexOf(f)>-1})}),on=true;
+   scnStop=function(){on=false};
+   (async function(){while(on){try{var r=await det.detect(v);if(r.length)gotCode(r[0].rawValue)}catch(e){}await new Promise(function(z){setTimeout(z,250)})}})()
+  }else{
+   await loadZX();var rd=new ZXing.BrowserMultiFormatReader();scnStop=function(){try{rd.reset()}catch(e){}};
+   rd.decodeFromStream(scnStream,v,function(res){if(res)gotCode(res.getText())})}
+ }catch(e){closeScan();say("تعذّر فتح الكاميرا أو قارئ الباركود. اسمح للموقع باستخدام الكاميرا من إعدادات المتصفح، وتأكد من وجود اتصال بالإنترنت في أول استعمال.")}}
+function closeScan(){if(scnStop){scnStop();scnStop=null}if(scnStream){scnStream.getTracks().forEach(function(t){t.stop()});scnStream=null}$("scv").srcObject=null;$("scn").classList.add("hide");scnCB=null}
+function scanSale(){openScan(function(c){var p=prods.find(function(x){return x.bc===c});if(p){add(p.id);toast("✔ "+p.n)}else toast("⚠️ باركود غير مسجّل: "+c)},"امسح المنتجات واحداً تلو الآخر")}
+function scanInto(){openScan(function(c){$("np_b").value=c;closeScan();toast("تم قراءة الباركود")})}
+function scanFor(id){openScan(async function(c){closeScan();var r=await sb.from("products").update({barcode:c}).eq("id",id);if(r.error){fail(r.error.code=="23505"?"هذا الباركود مرتبط بمنتج آخر":r.error);return}await loadProds();drawList();toast("✅ تم ربط الباركود")})}
+async function loadProds(){var r=await sb.from("products").select("*").eq("shop_id",shopId).eq("is_active",true).order("sort_order").order("created_at");if(r.error)throw r.error;
+ prods=r.data.map(function(d){return{id:d.id,n:d.name,p:Number(d.price),e:d.emoji,img:d.image_data,bc:d.barcode||"",stock:d.stock==null?null:Number(d.stock),low:Number(d.low_stock==null?5:d.low_stock)}});lset("c_prods",prods)}
+function drawList(){
+ $("plist").innerHTML='<b>تعديل الأسعار والمخزون</b><div class="mut">اترك خانة المخزون فارغة إن كنت لا تريد تتبّع كمية المنتج. زر 🔖 يربط باركوداً بالمنتج.</div>'+prods.map(function(p){return '<div class="item"><span class="row"><span style="font-size:26px">'+(p.img?'<img src="'+p.img+'" style="height:30px;vertical-align:middle">':p.e||"🛒")+'</span><span>'+esc(p.n)+(p.bc?'<div class="mut">🔖 '+esc(p.bc)+'</div>':'')+'</span></span><span class="row"><label class="mut">سعر<input class="pe" type="number" min="0" value="'+p.p+'" onchange="setP(\''+p.id+'\',this.value)"></label><label class="mut">مخزون<input class="pe" type="number" min="0" placeholder="—" value="'+(p.stock==null?'':p.stock)+'" onchange="setS(\''+p.id+'\',this.value)"></label><button class="sm" onclick="scanFor(\''+p.id+'\')" title="ربط باركود">🔖</button><button class="sm" onclick="delP(\''+p.id+'\')">🗑️</button></span></div>'}).join("")}
+function pv(e){var f=e.target.files[0],i=$("np_pv");if(f){i.src=URL.createObjectURL(f);i.classList.remove("hide")}}
+$("np_c").addEventListener("change",function(e){$("np_f").value="";pv(e)});$("np_f").addEventListener("change",function(e){$("np_c").value="";pv(e)});
+async function addP(){
+ var n=$("np_n").value.trim(),pv_=$("np_p").value,e=$("np_e").value.trim(),sv=$("np_s").value,bc=$("np_b").value.trim(),f=$("np_c").files[0]||$("np_f").files[0];
+ if(!n||pv_===""||isNaN(Number(pv_))){say("أدخل الاسم والسعر");return}
+ var row={shop_id:shopId,name:n,price:Number(pv_),emoji:e||"🛒",sort_order:prods.length+10,barcode:bc||null,stock:sv===""?null:Math.max(0,Math.floor(Number(sv)||0))};if(f)row.image_data=await imgData(f);
+ var r=await sb.from("products").insert(row);if(r.error){fail(r.error.code=="23505"?"هذا الباركود مرتبط بمنتج آخر":r.error);return}
+ $("np_n").value=$("np_p").value=$("np_e").value=$("np_s").value=$("np_b").value=$("np_f").value=$("np_c").value="";$("np_pv").classList.add("hide");await loadProds();draw();drawList()}
+sb.auth.getSession().then(function(r){var s=r.data.session,b=bioGet();bioMark();
+ if(s&&b&&b.email===(s.user.email||"").toLowerCase())lockScreen(b);else if(s)loadAll();else amsg("")});
 </script>
 </body>
 </html>
